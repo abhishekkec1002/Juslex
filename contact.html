@@ -24,7 +24,7 @@
                 <p><strong>Address:</strong> 1368 Allahpur, Prayagraj, Uttar Pradesh, India</p>
             </div>
 
-            <form class="contact-form">
+            <form class="contact-form" id="contact-form">
                 <input type="text" name="name" placeholder="Your Name" required>
                 <input type="email" name="email" placeholder="Your Email" required>
                 <textarea name="message" placeholder="Your Message" required></textarea>
@@ -46,41 +46,41 @@
 
     <!-- JavaScript for Header Import -->
     <script src="js/header-import.js"></script>
-	<script>		
-		document.getElementById("contactForm").addEventListener("submit", function (e) {
-			e.preventDefault();
+<script>
+document.getElementById("contact-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const name = this.name.value;
+    const email = this.email.value;
+    const message = this.message.value;
 
-			const name = this.name.value;
-			const email = this.email.value;
-			const message = this.message.value;
+    const phone = '7007931480'; // Replace with your recipient's number
+    const smsText = `New Enquiry:\nName: ${name}\nEmail: ${email}\nMessage: ${message}`;
 
-			const phone = '9956211748'; // Replace with the recipient's phone number
-			const smsText = `New Enquiry:\nName: ${name}\nEmail: ${email}\nMessage: ${message}`;
-
-			fetch("https://www.fast2sms.com/dev/bulkV2", {
-				method: "POST",
-				headers: {
-					"authorization": "W1Su9VrtzIacykHTAK8eMPJbOh2sgnp0RQNXYZUqmCLli3o5d7MjqyDT8C5xsn9gHLuAVzaiwJo02ONb",  // ⚠️ Never expose in frontend!
-					"Content-Type": "application/json"
-				},
-				<!-- body: JSON.stringify({ -->
-					route: "q",
-					message: smsText,
-					language: "english",
-					flash: 0,
-					numbers: phone
-				})
-			})
-			.then(response => response.json())
-			.then(data => {
-				console.log("SMS sent:", data);
-				alert("Message sent via SMS!");
-			})
-			.catch(error => {
-				console.error("SMS error:", error);		
-				alert("Failed to send SMS.");
-			});
-		});
+    fetch("https://www.fast2sms.com/dev/bulkV2", {
+        method: "POST",
+        headers: {
+            "authorization": "W1Su9VrtzIacykHTAK8eMPJbOh2sgnp0RQNXYZUqmCLli3o5d7MjqyDT8C5xsn9gHLuAVzaiwJo02ONb", // ⚠️ For testing only!
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            route: "q",
+            message: smsText,
+            language: "english",
+            flash: 0,
+            numbers: phone
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("SMS sent:", data);
+        alert("Message sent via SMS!");
+    })
+    .catch(error => {
+        console.error("SMS error:", error);
+        alert("Failed to send SMS.");
+    });
+});
 </script>
+
 </body>
 </html>
