@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Jus Lex</title>
+    <link rel="stylesheet" href="css/contact.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Section (Imported from header.html) -->
+    <header class="navbar" id="header-placeholder"></header>
+
+    <!-- Contact Section -->
+    <section class="contact-us container">
+        <h1>Contact Jus Lex</h1>
+        <div class="contact-info">
+            <p>If you need expert legal representation, don't hesitate to contact us for a consultation. At Jus Lex, we are committed to defending your rights and achieving justice.</p>
+
+            <div class="contact-details">
+                <p><strong>Phone:</strong> +91-99562-11748</p>
+                <p><strong>Email:</strong> Advocatearpitpal@gmail.com</p>
+                <p><strong>Address:</strong> 1368 Allahpur, Prayagraj, Uttar Pradesh, India</p>
+            </div>
+
+            <form class="contact-form">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn-primary">Send Message</button>
+            </form>
+        </div>
+
+        <!-- Google Map Embed -->
+        <div class="map-container">
+            <h2>Find Us Here</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3602.4164906680635!2d81.87133667539035!3d25.45776467754416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399ab54adf9a138b%3A0x54dff1650ca1b324!2sAdv%20Arpit%20pal!5e0!3m2!1sen!2sin!4v1729424173651!5m2!1sen!2sin" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> 
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="container">
+        <p>&copy; 2024 Jus Lex - All Rights Reserved</p>
+    </footer>
+
+    <!-- JavaScript for Header Import -->
+    <script src="js/header-import.js"></script>
+	<script>		
+		document.getElementById("contactForm").addEventListener("submit", function (e) {
+			e.preventDefault();
+
+			const name = this.name.value;
+			const email = this.email.value;
+			const message = this.message.value;
+
+			const phone = '9876543210'; // Replace with the recipient's phone number
+			const smsText = `New Enquiry:\nName: ${name}\nEmail: ${email}\nMessage: ${message}`;
+
+			fetch("https://www.fast2sms.com/dev/bulkV2", {
+				method: "POST",
+				headers: {
+					"authorization": "W1Su9VrtzIacykHTAK8eMPJbOh2sgnp0RQNXYZUqmCLli3o5d7MjqyDT8C5xsn9gHLuAVzaiwJo02ONb",  // ⚠️ Never expose in frontend!
+					"Content-Type": "application/json"
+				},
+				<!-- body: JSON.stringify({ -->
+					route: "q",
+					message: smsText,
+					language: "english",
+					flash: 0,
+					numbers: phone
+				})
+			})
+			.then(response => response.json())
+			.then(data => {
+				console.log("SMS sent:", data);
+				alert("Message sent via SMS!");
+			})
+			.catch(error => {
+				console.error("SMS error:", error);		
+				alert("Failed to send SMS.");
+			});
+		});
+</script>
+</body>
+</html>
